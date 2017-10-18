@@ -10,7 +10,7 @@ ENV LANG='en_US.UTF-8' \
 # Install Application
 RUN yum install -y curl tar createrepo && \
     curl --fail --silent --location --retry 3 --header "Cookie: oraclelicense=accept-securebackup-cookie;" -o /tmp/oracle/jre.rpm ${JAVA_URL} && \
-    yum install -y /tmp/oracle/jre.rpm
+    yum install -y /tmp/oracle/jre.rpm && \
     yum clean all && \
     rm -rf /tmp/* \
            /var/cache/yum/* \
