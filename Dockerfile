@@ -12,7 +12,7 @@ ENV LANG='en_US.UTF-8' \
 RUN yum install -y curl tar createrepo && \
     curl --fail --silent --location --retry 3 --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JAVA_URL} -o /tmp/oracle-jre.rpm && \
     yum install -y /tmp/oracle-jre.rpm && \
-    curl --fail --silent --location --retry 3 --header http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
+    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
     mkdir  -p /opt/sonatype /nexus /nexus-work && \
     tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
     mv /tmp/nexus-${NEXUS_VERSION} /opt/sonatype && \
