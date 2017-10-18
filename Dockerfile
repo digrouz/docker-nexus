@@ -31,6 +31,6 @@ EXPOSE 8081
 #USER nexus
 
 # Start nexus
-#COPY ./docker-entrypoint.sh /
-#ENTRYPOINT ["/docker-entrypoint.sh"]
-#CMD ["nexus"]
+COPY ./docker-entrypoint.sh /
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["nexus"]
