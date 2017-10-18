@@ -5,7 +5,7 @@ LABEL maintainer "DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
     TERM='xterm' \
-    JAVA_URL=http://javadl.oracle.com/webapps/download/AutoDL\?BundleId\=227541_e758a0de34e24606bca991d704f6dcbf \
+    JAVA_URL='http://javadl.oracle.com/webapps/download/AutoDL\?BundleId\=227541_e758a0de34e24606bca991d704f6dcbf' \
 
 # Install Application
 RUN yum install -y curl tar createrepo && \
