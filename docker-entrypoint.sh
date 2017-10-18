@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 MYUSER="nexus"
 MYGID="10023"
@@ -43,6 +43,28 @@ AutoUpgrade(){
   fi
 }
 
+# usage: file_env VAR [DEFAULT]
+#    ie: file_env 'XYZ_DB_PASSWORD' 'example'
+# (will allow for "$XYZ_DB_PASSWORD_FILE" to fill in the value of
+#  "$XYZ_DB_PASSWORD" from a file, especially for Docker's secrets feature)
+file_env() {
+  local var="$1"
+  local fileVar="${var}_FILE"
+  local def="${2:-}"
+  if [ "${!var:-}" ] && [ "${!fileVar:-}" ]; then
+    echo >&2 "error: both $var and $fileVar are set (but are exclusive)"
+    exit 1
+  fi
+  local val="$def"
+  if [ "${!var:-}" ]; then
+    val="${!var}"
+  elif [ "${!fileVar:-}" ]; then
+    val="$(< "${!fileVar}")"
+  fi
+  export "$var"="$val"
+  unset "$fileVar"
+}
+
 ConfigureUser () {
   # Managing user
   if [ -n "${DOCKUID}" ]; then
@@ -57,25 +79,27 @@ ConfigureUser () {
   local OLDUID
   if grep -q "${MYUSER}" /etc/passwd; then
     OLDUID=$(id -u "${MYUSER}")
-    if [ "${DOCKUID}" != "${OLDUID}" ]; then
-      OLDHOME=$(grep "$MYUSER" /etc/passwd | awk -F: '{print $6}')
-      if [ "${OS}" == "alpine" ]; then
-        deluser "${MYUSER}"
-      else
-        userdel "${MYUSER}"
-      fi
-      logger "Deleted user ${MYUSER}"
-    fi
-    if grep -q "${MYUSER}" /etc/group; then
+  fi 
+  if grep -q "${MYUSER}" /etc/group; then
       OLDGID=$(id -g "${MYUSER}")
-      if [ "${DOCKGID}" != "${OLDGID}" ]; then
-        if [ "${OS}" == "alpine" ]; then
-          delgroup "${MYUSER}"
-        else
-          groupdel "${MYUSER}"
-        fi
-        logger "Deleted group ${MYUSER}"
+  fi
+  if [ "${DOCKUID}" != "${OLDUID}" ]; then
+    OLDHOME=$(grep "$MYUSER" /etc/passwd | awk -F: '{print $6}')
+    if [ "${OS}" == "alpine" ]; then
+      deluser "${MYUSER}"
+    else
+      userdel "${MYUSER}"
+    fi
+    logger "Deleted user ${MYUSER}"
+  fi
+  if grep -q "${MYUSER}" /etc/group; then
+    if [ "${DOCKGID}" != "${OLDGID}" ]; then
+      if [ "${OS}" == "alpine" ]; then
+        delgroup "${MYUSER}"
+      else
+        groupdel "${MYUSER}"
       fi
+      logger "Deleted group ${MYUSER}"
     fi
   fi
   if ! grep -q "${MYUSER}" /etc/group; then
@@ -100,15 +124,16 @@ ConfigureUser () {
   fi
   if [ -n "${OLDUID}" ] && [ "${DOCKUID}" != "${OLDUID}" ]; then
     logger "Fixing permissions for group ${MYUSER}"
-    find / -user "${OLDUID}" -exec chown ${MYUSER} {} \;
+    find / -user "${OLDUID}" -exec chown ${MYUSER} {} \; &> /dev/null
     logger "... done!"
   fi
   if [ -n "${OLDGID}" ] && [ "${DOCKGID}" != "${OLDGID}" ]; then
     logger "Fixing permissions for group ${MYUSER}"
-    find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \;
+    find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \; &> /dev/null
     logger "... done!"
   fi
 }
+
 
 DectectOS
 AutoUpgrade
