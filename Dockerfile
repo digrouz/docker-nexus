@@ -15,7 +15,8 @@ RUN yum install -y curl tar createrepo && \
     curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
     mkdir  -p /opt/sonatype /nexus /nexus-work && \
     tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
-    mv /tmp/nexus-${NEXUS_VERSION} /opt/sonatype && \
+    mv /tmp/nexus-${NEXUS_VERSION} /opt/sonatype/nexus && \
+    ln -snf /nexus-work /opt/sonatype/sonatype-work && \
     yum clean all && \
     rm -rf /tmp/* \
            /var/cache/yum/* \
