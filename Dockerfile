@@ -5,11 +5,11 @@ LABEL maintainer "DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 ENV LANG='en_US.UTF-8' \
     LANGUAGE='en_US.UTF-8' \
     TERM='xterm' \
-    JAVA_URL='http://javadl.oracle.com/webapps/download/AutoDL\?BundleId\=227541_e758a0de34e24606bca991d704f6dcbf'
+    JAVA_URL='http://javadl.oracle.com/webapps/download/AutoDL?BundleId=227541_e758a0de34e24606bca991d704f6dcbf'
 
 # Install Application
 RUN yum install -y curl tar createrepo && \
-    curl --fail --silent --location --retry 3 --header "Cookie: oraclelicense=accept-securebackup-cookie;" -o /tmp/oracle/jre.rpm ${JAVA_URL} && \
+    curl -v -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" ${JAVA_URL} && \
     yum install -y /tmp/oracle/jre.rpm && \
     yum clean all && \
     rm -rf /tmp/* \
