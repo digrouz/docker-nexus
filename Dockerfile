@@ -9,11 +9,21 @@ ENV LANG='en_US.UTF-8' \
     NEXUS_VERSION='3.6.0-02'
 
 # Install Application
-RUN yum install -y curl tar createrepo && \
+RUN yum update -y && \
+    yum install -y git \
+                gcc \
+                make \
+                && \
+    git clone --depth 1 https://github.com/ncopa/su-exec /tmp/su-exec && \
+    cd /tmp/su-exec && \
+    make && \
+    cp /tmp/su-exec/su-exec /usr/local/bin/su-exec && \
+    yum history -y undo last && \
+    yum install -y curl tar createrepo && \
     curl --fail --silent --location --retry 3 --header "Cookie: oraclelicense=accept-securebackup-cookie" ${JAVA_URL} -o /tmp/oracle-jre.rpm && \
     yum install -y /tmp/oracle-jre.rpm && \
     curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
-    mkdir  -p /opt/sonatype /nexus /nexus-work && \
+    mkdir -p /opt/sonatype /nexus-work && \
     tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
     mv /tmp/nexus-${NEXUS_VERSION} /opt/sonatype/nexus && \
     ln -snf /nexus-work /opt/sonatype/sonatype-work && \

@@ -23,7 +23,7 @@ AutoUpgrade(){
   if [ -n "${DOCKUPGRADE}" ]; then
     MYUPGRADE="${DOCKUPGRADE}"
   fi
-  if [ "${MYUPGRADE}" == "1" ]; then
+  if [ "${MYUPGRADE}" == 1 ]; then
     if [ "${OS}" == "alpine" ]; then
       apk --no-cache upgrade
       rm -rf /var/cache/apk/*
@@ -117,7 +117,7 @@ ConfigureUser () {
     if [ "${OS}" == "alpine" ]; then
       adduser -S -D -H -s /sbin/nologin -G "${MYUSER}" -h "${OLDHOME}" -u "${MYUID}" "${MYUSER}"
     else
-      useradd --system --shell /sbin/nologin --gid "${MYGID}" --home "${OLDHOME}" --uid "${MYUID}" "${MYUSER}"
+      useradd --system --shell /sbin/nologin --gid "${MYGID}" --home-dir "${OLDHOME}" --uid "${MYUID}" "${MYUSER}"
     fi
     logger "Created user ${MYUSER}"
 
@@ -141,9 +141,10 @@ ConfigureUser
 
 if [ "${1}" == 'nexus' ]; then
   INSTALLDIR=/opt/sonatype/nexus
-  chown -R ${MYUSER}:${MYUSER} ${INSTALLDIR} /opt/sonatype /nexus-work
-  exec su - ${MYUSER} -s /bin/sh -c "cd ${INSTALLDIR} && bin/nexus run"
-
+  mkdir /home/${MYUSER}
+  chown -R ${MYUSER}:${$MYUSER} ${INSTALLDIR} /opt/sonatype /nexus-work /home/${MYUSER}
+  cd ${INSTALLDIR} 
+  exec su-exec "${MYUSER}" bin/nexus run
 else
   exec "$@"
 fi
