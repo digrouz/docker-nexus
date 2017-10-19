@@ -23,7 +23,7 @@ AutoUpgrade(){
   if [ -n "${DOCKUPGRADE}" ]; then
     MYUPGRADE="${DOCKUPGRADE}"
   fi
-  if [ "${MYUPGRADE}" ]; then
+  if [ "${MYUPGRADE}" == "1" ]; then
     if [ "${OS}" == "alpine" ]; then
       apk --no-cache upgrade
       rm -rf /var/cache/apk/*
