@@ -142,7 +142,7 @@ ConfigureUser
 if [ "${1}" == 'nexus' ]; then
   INSTALLDIR=/opt/sonatype/nexus
   mkdir /home/${MYUSER}
-  chown -R ${MYUSER}:${$MYUSER} ${INSTALLDIR} /opt/sonatype /nexus-work /home/${MYUSER}
+  chown -R ${MYUSER}:${MYUSER} ${INSTALLDIR} /opt/sonatype /nexus-work /home/${MYUSER}
   cd ${INSTALLDIR} 
   exec su-exec "${MYUSER}" bin/nexus run
 else
