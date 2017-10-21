@@ -90,7 +90,7 @@ ConfigureUser () {
     else
       userdel "${MYUSER}"
     fi
-    logger "Deleted user ${MYUSER}"
+    DockLog "Deleted user ${MYUSER}"
   fi
   if grep -q "${MYUSER}" /etc/group; then
     if [ "${DOCKGID}" != "${OLDGID}" ]; then
@@ -99,7 +99,7 @@ ConfigureUser () {
       else
         groupdel "${MYUSER}"
       fi
-      logger "Deleted group ${MYUSER}"
+      DockLog "Deleted group ${MYUSER}"
     fi
   fi
   if ! grep -q "${MYUSER}" /etc/group; then
@@ -108,29 +108,47 @@ ConfigureUser () {
     else
       groupadd -r -g "${MYGID}" "${MYUSER}"
     fi
-    logger "Created group ${MYUSER}"
+    DockLog "Created group ${MYUSER}"
   fi
   if ! grep -q "${MYUSER}" /etc/passwd; then
     if [ -z "${OLDHOME}" ]; then
       OLDHOME="/home/${MYUSER}"
+      mkdir "${OLDHOME}"
+      DockLog "Created home directory ${OLDHOME}"
     fi
     if [ "${OS}" == "alpine" ]; then
       adduser -S -D -H -s /sbin/nologin -G "${MYUSER}" -h "${OLDHOME}" -u "${MYUID}" "${MYUSER}"
     else
       useradd --system --shell /sbin/nologin --gid "${MYGID}" --home-dir "${OLDHOME}" --uid "${MYUID}" "${MYUSER}"
     fi
-    logger "Created user ${MYUSER}"
+    DockLog "Created user ${MYUSER}"
 
   fi
   if [ -n "${OLDUID}" ] && [ "${DOCKUID}" != "${OLDUID}" ]; then
-    logger "Fixing permissions for group ${MYUSER}"
+    DockLog "Fixing permissions for user ${MYUSER}"
     find / -user "${OLDUID}" -exec chown ${MYUSER} {} \; &> /dev/null
-    logger "... done!"
+    if [ "${OLDHOME}" == "/home/${MYUSER}" ]; then
+      chown -R "${MYUSER}" "${OLDHOME}"
+      chmod -R u+rwx "${OLDHOME}"
+    fi
+    DockLog "... done!"
   fi
   if [ -n "${OLDGID}" ] && [ "${DOCKGID}" != "${OLDGID}" ]; then
-    logger "Fixing permissions for group ${MYUSER}"
+    DockLog "Fixing permissions for group ${MYUSER}"
     find / -group "${OLDGID}" -exec chgrp ${MYUSER} {} \; &> /dev/null
-    logger "... done!"
+    if [ "${OLDHOME}" == "/home/${MYUSER}" ]; then
+      chown -R :"${MYUSER}" "${OLDHOME}"
+      chmod -R ga-rwx "${OLDHOME}"
+    fi
+    DockLog "... done!"
+  fi
+}
+
+DockLog(){
+  if [ "${OS}" == "centos" ]; then
+    echo "${1}"
+  else
+    logger "${1}"
   fi
 }
 
@@ -141,11 +159,12 @@ ConfigureUser
 
 if [ "${1}" == 'nexus' ]; then
   INSTALLDIR=/opt/sonatype/nexus
-  mkdir /home/${MYUSER}
-  chown -R ${MYUSER}:${MYUSER} ${INSTALLDIR} /opt/sonatype /nexus-work /home/${MYUSER}
+  chown -R ${MYUSER}:${MYUSER} ${INSTALLDIR} /opt/sonatype /nexus-work
   cd ${INSTALLDIR} 
+  DockLog "Starting application: ${1}"
   exec su-exec "${MYUSER}" bin/nexus run
 else
+  DockLog "Lauching command: $@"
   exec "$@"
 fi
 
