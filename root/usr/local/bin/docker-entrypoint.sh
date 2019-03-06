@@ -13,8 +13,8 @@ ConfigureUser
 if [ "${1}" == 'nexus' ]; then
   DockLog "Adjusting system limits"
   ulimit -n 65536 -u 4096
-  DockLog "Fixing permissions on ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA}"
-  chown -R ${MYUSER}:${MYUSER} ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA}
+  DockLog "Fixing permissions on ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}"
+  chown -R ${MYUSER}:${MYUSER} ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}
 
   RunDropletEntrypoint
 
