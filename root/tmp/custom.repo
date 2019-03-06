@@ -1,0 +1,5 @@
+[custom]
+name=custom
+baseurl=https://repo.oneytrust.com/repo/centos/$releasever/$basearch/custom
+gpgcheck=0
+enabled=1
