@@ -1,5 +1,5 @@
 [custom]
 name=custom
-baseurl=https://www.digrouz.com/repo/centos/$releasever/$basearch/custom
+baseurl=https://repo.digrouz.com/repo/centos/$releasever/$basearch/custom
 gpgcheck=0
 enabled=1
