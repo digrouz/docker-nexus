@@ -1,8 +1,8 @@
 FROM centos:7
 LABEL maintainer "DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 
-ARG NEXUS_VERSION=3.15.2-01
-ARG NEXUS_DOWNLOAD_URL=https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz
+ARG NEXUS_VERSION="3.29.0-02"
+ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz"
 
 # Environment variables
 ENV LANG='en_US.UTF-8' \
