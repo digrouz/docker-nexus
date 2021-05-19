@@ -7,7 +7,7 @@ RUN set -x && \
       make \
       git \
     && \
-    git clone --depth 1 git@github.com:ncopa/su-exec.git /opt/su-exec && \
+    git clone --depth 1 https://github.com/ncopa/su-exec.git /opt/su-exec && \
     cd /opt/su-exec && \
     make
     
