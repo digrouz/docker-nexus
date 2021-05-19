@@ -1,3 +1,16 @@
+FROM centos:7 AS su-exec-builder
+
+RUN set -x && \
+    yum update -y && \
+    yum install -y \
+      gcc \
+      make \
+      git
+    && \
+    git clone --depth 1 git@github.com:ncopa/su-exec.git /opt/su-exec && \
+    cd /opt/su-exec && \
+    make
+    
 FROM centos:7
 LABEL maintainer "DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 
@@ -22,6 +35,7 @@ ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
     INSTALL4J_ADD_VM_PARAMS="-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
 
 COPY root /
+COPY --from=su-exec-builder /opt/su-exec/su-exec /usr/local/bin/su-exec
 
 # Install Application
 RUN set -x && \
@@ -32,14 +46,12 @@ RUN set -x && \
     MYGID="${APPGID}" && \
     ConfigureUser && \
     usermod -m -d ${SONATYPE_DIR} ${MYUSER} && \
-    yum-config-manager --add-repo /tmp/custom.repo && \
     yum update -y && \
     yum install -y \
       curl \
       tar \
       createrepo \
       java-1.8.0-openjdk-headless.x86_64 \
-      su-exec \
     && \
     curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
     mkdir -p ${SONATYPE_DIR} ${NEXUS_WORK} ${NEXUS_DATA} && \
