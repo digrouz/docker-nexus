@@ -5,7 +5,7 @@ RUN set -x && \
     yum install -y \
       gcc \
       make \
-      git
+      git \
     && \
     git clone --depth 1 git@github.com:ncopa/su-exec.git /opt/su-exec && \
     cd /opt/su-exec && \
