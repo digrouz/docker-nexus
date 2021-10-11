@@ -32,7 +32,7 @@ ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
     NEXUS_WORK="/nexus-work" \
     NEXUS_CONTEXT='' \
     SONATYPE_WORK="${SONATYPE_DIR}/sonatype-work" \
-    INSTALL4J_ADD_VM_PARAMS="-Xms1200m -Xmx1200m -XX:MaxDirectMemorySize=2g -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
+    INSTALL4J_ADD_VM_PARAMS="-Xms2703m -Xmx2703m -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
 
 COPY root /
 COPY --from=su-exec-builder /opt/su-exec/su-exec /usr/local/bin/su-exec
