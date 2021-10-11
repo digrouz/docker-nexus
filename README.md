@@ -3,6 +3,10 @@ Install Sonatype Nexus Repository Manager into a Linux Container
 
 ![Nexus](https://help.sonatype.com/download/attachments/2628561/NXRM3?version=2&modificationDate=1502243125680&api=v2)
 
+## Tag
+Several tag are available:
+* latest: see centos7
+* centos7: [Dockerfile_centos7](https://github.com/digrouz/docker-nexus/blob/master/Dockerfile_centos7)
 
 ## Description
 
@@ -42,3 +46,6 @@ This variable is not mandatory and specifies if the container has to launch soft
 * Don't forget to change the default password the `admin` user: `admin123` after first login.
 
 
+## Issues
+
+If you encounter an issue please open a ticket at [github](https://github.com/digrouz/docker-nexus/issues)
