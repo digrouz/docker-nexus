@@ -16,6 +16,11 @@ if [ "${1}" == 'nexus' ]; then
   DockLog "Fixing permissions on ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}"
   chown -R ${MYUSER}:${MYUSER} ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}
 
+  if [ ! -e ${NEXUS_DATA}/javaprefs ]; then
+    Docklog "java user prefs file is missing, creating empty one"
+    touch ${NEXUS_DATA}/javaprefs
+  fi
+
   RunDropletEntrypoint
 
   cd ${NEXUS_HOME} 
