@@ -13,13 +13,14 @@ ConfigureUser
 if [ "${1}" == 'nexus' ]; then
   DockLog "Adjusting system limits"
   ulimit -n 65536 -u 4096
-  DockLog "Fixing permissions on ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}"
-  chown -R ${MYUSER}:${MYUSER} ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}
 
   if [ ! -f ${NEXUS_DATA}/javaprefs ]; then
     Docklog "java user prefs file is missing, creating empty one"
     touch ${NEXUS_DATA}/javaprefs
   fi
+  
+  DockLog "Fixing permissions on ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}"
+  chown -R ${MYUSER}:${MYUSER} ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}
 
   RunDropletEntrypoint
 
