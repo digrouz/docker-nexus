@@ -41,3 +41,11 @@ jobs:
           file: Dockerfile_centos7
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/nexus:centos7
+      -
+        name: Build and push tag alma8
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile_alma8
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nexus:alma8

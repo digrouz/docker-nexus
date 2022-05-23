@@ -14,6 +14,8 @@ DetectOS(){
       OS="rhel"
     elif grep -q "NAME=\"Rocky Linux\"" /etc/os-release ; then
       OS="rhel"
+    elif grep -q "NAME=\"AlmaLinux\"" /etc/os-release ; then
+      OS="rhel"
     fi
   fi
   echo $OS

@@ -7,6 +7,7 @@ Install Sonatype Nexus Repository Manager into a Linux Container
 Several tag are available:
 * latest: see centos7
 * centos7: [Dockerfile_centos7](https://github.com/digrouz/docker-nexus/blob/master/Dockerfile_centos7)
+* alma8: [Dockerfile_alma8](https://github.com/digrouz/docker-nexus/blob/master/Dockerfile_alma8)
 
 ## Description
 
