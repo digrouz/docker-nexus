@@ -1,0 +1,5 @@
+#!/command/with-contenv sh
+
+echo "Adjusting system limits"
+ulimit -n 65536 -u 4096
+

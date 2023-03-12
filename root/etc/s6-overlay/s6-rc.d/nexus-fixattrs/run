@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+chown -R appuser:appuser ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}
+chmod -R g+w ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_DATA} ${NEXUS_WORK}

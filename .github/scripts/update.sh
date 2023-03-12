@@ -4,7 +4,7 @@ NEXUS_URL="https://api.github.com/repos/sonatype/nexus-public/releases"
 
 
 FULL_LAST_VERSION=$(curl -SsL ${NEXUS_URL} | jq .[0].name -r )
-LAST_VERSION="${FULL_LAST_VERSION:9}"
+LAST_VERSION="${FULL_LAST_VERSION:8}"
 
 if [ "${LAST_VERSION}" ]; then
   sed -i -e "s|NEXUS_VERSION='.*'|NEXUS_VERSION='${LAST_VERSION}'|" Dockerfile*

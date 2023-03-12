@@ -1,0 +1,51 @@
+FROM digrouz/alpine-s6:latest
+LABEL maintainer "DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
+
+ARG NEXUS_VERSION="3.42.0-01"
+ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz"
+
+# Environment variables
+ENV NEXUS_VERSION="${NEXUS_VERSION}" \
+    NEXUS_DOWNLOAD_URL="${NEXUS_DOWNLOAD_URL}"\
+    SONATYPE_DIR="/opt/sonatype" 
+ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
+    NEXUS_DATA="/nexus-data" \
+    NEXUS_WORK="/nexus-work" \
+    NEXUS_CONTEXT='' \
+    SONATYPE_WORK="${SONATYPE_DIR}/sonatype-work" \
+    INSTALL4J_ADD_VM_PARAMS="-Xms2703m -Xmx2703m -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
+
+COPY root /
+
+# Install Application
+RUN usermod -m -d ${SONATYPE_DIR} appuser && \
+    apk --no-cache upgrade && \
+    apk add --no-cache --virtual=build-deps \
+      curl \
+    && \
+    apk add --no-cache --virtual=run-deps \
+      openjdk8 \
+    && \
+    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
+    mkdir -p ${SONATYPE_DIR} ${NEXUS_WORK} ${NEXUS_DATA} && \
+    tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
+    mv /tmp/nexus-${NEXUS_VERSION} ${NEXUS_HOME} && \
+    ln -snf ${NEXUS_WORK} ${SONATYPE_WORK} && \
+    sed \
+      -e '/^-Xms/d' \
+      -e '/^-Xmx/d' \
+      -e '/^-XX:MaxDirectMemorySize/d' \
+    ${NEXUS_HOME}/bin/nexus.vmoptions && \
+    chown -R appuser:appuser ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_WORK} ${NEXUS_DATA} && \
+    apk del --no-cache --purge \
+      build-deps  \
+    && \
+    rm -rf /tmp/* \
+           /var/cache/apk/*  \
+           /var/tmp/*
+    
+# Expose volumes
+VOLUME ["${NEXUS_DATA}"]
+
+# Expose ports
+EXPOSE 8081

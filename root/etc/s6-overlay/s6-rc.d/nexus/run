@@ -1,0 +1,4 @@
+#!/command/with-contenv sh
+
+cd "${NEXUS_HOME}"
+exec s6-setuidgid appuser bin/nexus run

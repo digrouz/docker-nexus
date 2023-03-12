@@ -1,0 +1,6 @@
+#!/command/with-contenv sh
+
+  if [ ! -f ${NEXUS_DATA}/javaprefs ]; then
+    echo "java user prefs file is missing, creating empty one"
+    touch ${NEXUS_DATA}/javaprefs
+  fi
