@@ -7,11 +7,11 @@ ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERS
 # Environment variables
 ENV NEXUS_VERSION="${NEXUS_VERSION}" \
     NEXUS_DOWNLOAD_URL="${NEXUS_DOWNLOAD_URL}"\
-    SONATYPE_DIR="/opt/sonatype" 
-ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
+    SONATYPE_DIR="/opt/sonatype" \
     NEXUS_DATA="/nexus-data" \
     NEXUS_WORK="/nexus-work" \
-    NEXUS_CONTEXT='' \
+    NEXUS_CONTEXT='' 
+ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
     SONATYPE_WORK="${SONATYPE_DIR}/sonatype-work" \
     INSTALL4J_ADD_VM_PARAMS="-Xms2703m -Xmx2703m -XX:MaxDirectMemorySize=2703m -Djava.util.prefs.userRoot=${NEXUS_DATA}/javaprefs"
 
