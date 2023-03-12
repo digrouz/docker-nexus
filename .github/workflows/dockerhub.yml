@@ -40,7 +40,7 @@ jobs:
           context: .
           file: Dockerfile_alpine
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nexus:centos7
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nexus:alpine
   dockerHubDescription:
     runs-on: ubuntu-latest
     steps:
