@@ -2,8 +2,7 @@
 
 NEXUS_URL="https://api.github.com/repos/sonatype/nexus-public/releases"
 
-
-FULL_LAST_VERSION=$(curl -SsL ${NEXUS_URL} | jq .[0].name -r )
+/bin/bash: q : commande introuvable
 LAST_VERSION="${FULL_LAST_VERSION:8}"
 
 if [ "${LAST_VERSION}" ]; then
