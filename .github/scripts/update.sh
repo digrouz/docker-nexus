@@ -4,7 +4,7 @@ NEXUS_URL="https://api.github.com/repos/sonatype/nexus-public/releases"
 
 FULL_LAST_VERSION=$(curl -SsL ${NEXUS_URL} | \
               jq -r -c '.[] | select( .prerelease == false ) | .tag_name' |\
-              | egrep -v "^2" |\
+              egrep -v "^2" |\
               head -1 \
               )
 LAST_VERSION="${FULL_LAST_VERSION:8}"
