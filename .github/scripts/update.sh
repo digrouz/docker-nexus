@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -x
-
 NEXUS_URL="https://api.github.com/repos/sonatype/nexus-public/releases"
 
 FULL_LAST_VERSION=$(curl -SsL ${NEXUS_URL} | \
