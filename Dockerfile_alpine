@@ -26,7 +26,7 @@ RUN usermod -m -d ${SONATYPE_DIR} appuser && \
     apk add --no-cache --virtual=run-deps \
       openjdk17 \
     && \
-    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-unix-x86-64-{NEXUS_VERSION}.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
+    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-unix-x86-64-${NEXUS_VERSION}.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
     mkdir -p ${SONATYPE_DIR} ${NEXUS_WORK} ${NEXUS_DATA} && \
     tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
     mv /tmp/nexus-${NEXUS_VERSION} ${NEXUS_HOME} && \
