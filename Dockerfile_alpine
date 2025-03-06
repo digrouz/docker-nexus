@@ -1,5 +1,5 @@
 FROM digrouz/alpine-s6:latest
-LABEL maintainer "DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
+LABEL maintainer="DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 
 ARG NEXUS_VERSION='3.78.0-14'
 ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz"
@@ -24,9 +24,9 @@ RUN usermod -m -d ${SONATYPE_DIR} appuser && \
       curl \
     && \
     apk add --no-cache --virtual=run-deps \
-      openjdk8 \
+      openjdk17 \
     && \
-    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
+    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-unix-x86-64-{NEXUS_VERSION}.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
     mkdir -p ${SONATYPE_DIR} ${NEXUS_WORK} ${NEXUS_DATA} && \
     tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
     mv /tmp/nexus-${NEXUS_VERSION} ${NEXUS_HOME} && \
