@@ -18,7 +18,8 @@ ENV NEXUS_HOME="${SONATYPE_DIR}/nexus" \
 COPY root /
 
 # Install Application
-RUN usermod -m -d ${SONATYPE_DIR} appuser && \
+RUN set -x && \
+    usermod -m -d ${SONATYPE_DIR} appuser && \
     apk --no-cache upgrade && \
     apk add --no-cache --virtual=build-deps \
       curl \
