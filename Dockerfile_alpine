@@ -27,6 +27,7 @@ RUN set -x && \
     && \
     apk add --no-cache --virtual=run-deps \
       openjdk17 \
+    && \
     curl --fail --silent --location --retry 3 ${NEXUS_DOWNLOAD_URL} -o /tmp/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip && \
     mkdir -p ${SONATYPE_DIR} ${NEXUS_WORK} ${NEXUS_DATA} && \
     unzip /tmp/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip -d /tmp && \
