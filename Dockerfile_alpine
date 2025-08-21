@@ -2,7 +2,7 @@ FROM digrouz/alpine-s6:latest
 LABEL maintainer="DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 
 ARG NEXUS_VERSION='3.83.1-03'
-ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/nexus-${NEXUS_VERSION}-unix.tar.gz"
+ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip"
 
 # Environment variables
 ENV NEXUS_VERSION="${NEXUS_VERSION}" \
@@ -23,13 +23,13 @@ RUN set -x && \
     apk --no-cache upgrade && \
     apk add --no-cache --virtual=build-deps \
       curl \
+      unzip \
     && \
     apk add --no-cache --virtual=run-deps \
       openjdk17 \
-    && \
-    curl --fail --silent --location --retry 3 http://download.sonatype.com/nexus/3/nexus-unix-x86-64-${NEXUS_VERSION}.tar.gz -o /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz && \
+    curl --fail --silent --location --retry 3 ${NEXUS_DOWNLOAD_URL} -o /tmp/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip && \
     mkdir -p ${SONATYPE_DIR} ${NEXUS_WORK} ${NEXUS_DATA} && \
-    tar xzf /tmp/nexus-${NEXUS_VERSION}-unix.tar.gz -C /tmp && \
+    unzip /tmp/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip -d /tmp && \
     mv /tmp/nexus-${NEXUS_VERSION} ${NEXUS_HOME} && \
     ln -snf ${NEXUS_WORK} ${SONATYPE_WORK} && \
     sed \
