@@ -1,14 +1,17 @@
+# docker-nexus
+
 [![auto-update](https://github.com/digrouz/docker-nexus/actions/workflows/auto-update.yml/badge.svg)](https://github.com/digrouz/docker-nexus/actions/workflows/auto-update.yml)
 [![dockerhub](https://github.com/digrouz/docker-nexus/actions/workflows/dockerhub.yml/badge.svg)](https://github.com/digrouz/docker-nexus/actions/workflows/dockerhub.yml)
 ![Docker Pulls](https://img.shields.io/docker/pulls/digrouz/nexus)
 
-# docker-nexus
 Install Sonatype Nexus Repository Manager into a Linux Container
 
 ![Nexus](https://help.sonatype.com/download/attachments/2628561/NXRM3?version=2&modificationDate=1502243125680&api=v2)
 
-## Tag
+## Tags
+
 Several tag are available:
+
 * latest: see alpine
 * alpine: [Dockerfile_alpine](https://github.com/digrouz/docker-nexus/blob/master/Dockerfile_alpine)
 
@@ -16,9 +19,10 @@ Several tag are available:
 
 Sonatype Nexus, an artifact repository for building software;
 
-https://www.sonatype.com/nexus-repository-oss
+[https://www.sonatype.com/products/nexus-community-edition-download](https://www.sonatype.com/products/nexus-community-edition-download)
 
 ## Usage
+
     docker create --name=nexus  \
       -v /etc/localtime:/etc/localtime:ro \
       -v <path to persistant data>:/nexus-work \
@@ -27,7 +31,6 @@ https://www.sonatype.com/nexus-repository-oss
       -e AUTOUPGRADE=<0|1 default:0> \
       -e TZ=<timezone default:Europe/Brussels> \
       -p 8081:8081 digrouz/nexus
-
 
 ## Environment Variables
 
