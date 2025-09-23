@@ -33,11 +33,7 @@ RUN set -x && \
     unzip /tmp/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip -d /tmp && \
     mv /tmp/nexus-${NEXUS_VERSION} ${NEXUS_HOME} && \
     ln -snf ${NEXUS_WORK} ${SONATYPE_WORK} && \
-    sed \
-      -e '/^-Xms/d' \
-      -e '/^-Xmx/d' \
-      -e '/^-XX:MaxDirectMemorySize/d' \
-    ${NEXUS_HOME}/bin/nexus.vmoptions && \
+    sed -e '/^nexus-context/ s:$:${NEXUS_CONTEXT}:' -i ${NEXUS_HOME}/etc/nexus-default.properties
     chown -R appuser:appuser ${SONATYPE_DIR} ${NEXUS_HOME} ${SONATYPE_WORK} ${NEXUS_WORK} ${NEXUS_DATA} && \
     apk del --no-cache --purge \
       build-deps  \
