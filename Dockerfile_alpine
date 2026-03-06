@@ -1,7 +1,7 @@
 FROM digrouz/alpine-s6:latest
 LABEL maintainer="DI GREGORIO Nicolas <ndigrego@ndg-consulting.tech>"
 
-ARG NEXUS_VERSION='3.89.1-02'
+ARG NEXUS_VERSION='3.90.0-21'
 ARG NEXUS_DOWNLOAD_URL="https://download.sonatype.com/nexus/3/sonatype-nexus-repository-${NEXUS_VERSION}-assembly.zip"
 
 # Environment variables
